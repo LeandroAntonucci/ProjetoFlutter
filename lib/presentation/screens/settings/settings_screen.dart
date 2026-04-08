@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/constants.dart';
-import '../../widgets/top_curve_green_widget.dart';
-import '../../../routes/app_routes.dart';
 
-
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +17,6 @@ class WelcomeScreen extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              // 🔹 Parte verde com curva
-              ClipPath(
-                clipper: TopCurveClipper(),
-                child: Container(
-                  height: 350,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF00C9A7), Color(0xFF00BFA6)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                ),
-              ),
-
-              // 🔹 Conteúdo
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
@@ -62,16 +42,14 @@ class WelcomeScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.textOnMain,
+                          backgroundColor: const Color(0xFF00C9A7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 12),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.login);
-                        },
+                        onPressed: () {},
                         child: const Text("Avançar >>>"),
                       ),
                     )

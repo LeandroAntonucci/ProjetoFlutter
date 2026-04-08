@@ -12,7 +12,7 @@ class _MainScreenState extends State<MainScreen> {
   int _index = 0;
 
   final List<Widget> _pages = const [
-    HomeScreen(),
+    MainScreen(),
     ChatScreen(),
     TaskScreen(),
     SettingsScreen(),

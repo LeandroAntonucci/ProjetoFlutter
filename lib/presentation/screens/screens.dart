@@ -25,4 +25,7 @@ export './task/tasks_sucess_screen.dart';
 
 export './chat/chat_screen.dart';
 
+// Settings Screens
+
+export 'settings/settings_screen.dart';
 

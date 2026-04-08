@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../routes/app_routes.dart';
 import '../observers/route_observer.dart';
+import './constants/constants.dart';
+import '../routes/app_router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,9 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Brasil Navigator',
+      title: 'Lavie',
       initialRoute: AppRoutes.welcome,
-      routes: AppRoutes.routes,
+      onGenerateRoute: AppRouter.generateRoute,
       navigatorObservers: [AppRouteObserver.instance],
     );
   }
