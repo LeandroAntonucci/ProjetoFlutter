@@ -1,52 +1,77 @@
-class AuthService {
-  static String? _token;
-  static bool _seenOnboarding = false;
-  static DateTime? _lastActivity;
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AuthService extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  bool _seenOnboarding = false;
 
   // =========================
-  // 🔐 AUTH
+  // GETTERS
   // =========================
-  static bool get isLoggedIn => _token != null;
+  User? get user => _auth.currentUser;
+  bool get isLoggedIn => user != null;
+  bool get hasSeenOnboarding => _seenOnboarding;
 
-  static void login(String token) {
-    _token = token;
-    _updateActivity();
+  // =========================
+  // INIT
+  // =========================
+  Future<void> init() async {
+    final prefs = await SharedPreferences.getInstance();
+    _seenOnboarding = prefs.getBool('onboarding') ?? false;
+
+    // 🔥 escuta mudanças do Firebase
+    _auth.authStateChanges().listen((_) {
+      notifyListeners();
+    });
+
+    notifyListeners();
   }
 
-  static void logout() {
-    _token = null;
+  // =========================
+  // LOGIN EMAIL/SENHA
+  // =========================
+  Future<void> login(String email, String password) async {
+    await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   // =========================
-  // 🧠 ONBOARDING
+  // REGISTER
   // =========================
-  static bool get hasSeenOnboarding => _seenOnboarding;
+  Future<void> register(String email, String password) async {
+    await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
 
-  static void completeOnboarding() {
+  // =========================
+  // LOGOUT
+  // =========================
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+
+  // =========================
+  // RESET PASSWORD
+  // =========================
+  Future<void> forgotPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  // =========================
+  // ONBOARDING
+  // =========================
+  Future<void> completeOnboarding() async {
     _seenOnboarding = true;
-  }
 
-  // =========================
-  // ⏱️ INATIVIDADE
-  // =========================
-  static void _updateActivity() {
-    _lastActivity = DateTime.now();
-  }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding', true);
 
-  static void registerActivity() {
-    _updateActivity();
-  }
-
-  static bool isSessionExpired() {
-    if (_lastActivity == null) return false;
-
-    final now = DateTime.now();
-    return now.difference(_lastActivity!).inMinutes > 30;
-  }
-
-  static void checkSession() {
-    if (isSessionExpired()) {
-      logout();
-    }
+    notifyListeners();
   }
 }

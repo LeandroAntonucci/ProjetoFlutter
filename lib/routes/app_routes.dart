@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import '../presentation/screens/screens.dart';
-
 class AppRoutes {
 
   // AUTH
@@ -10,6 +7,7 @@ class AppRoutes {
   static const String register = '/auth/register';
   static const String forgotPassword = '/auth/forgot-password';
   static const String resetPassword = '/auth/reset-password';
+  static const String passwordResetedOk = '/auth/paasword-reseted-ok';
 
   // ONBOARDING
 

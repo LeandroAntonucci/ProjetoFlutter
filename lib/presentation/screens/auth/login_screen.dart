@@ -1,17 +1,37 @@
 import 'package:flutter/material.dart';
-import '../../widgets/top_curve_green_widget.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../widgets/top_curve_green_widget.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_text_styles.dart';
+import '../../../core/services/auth_service.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  bool loading = false;
+
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final auth = context.read<AuthService>();
+
+    final maxWidth = size.width < 600 ? size.width : 420.0;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Container(
-          width: 320,
-          height: 620,
+          width: maxWidth,
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
@@ -32,8 +52,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // 🔹 Conteúdo
+               // 🔹 Conteúdo
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(

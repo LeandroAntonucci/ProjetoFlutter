@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../routes/app_routes.dart';
-import '../observers/route_observer.dart';
-import './constants/constants.dart';
+import 'package:lavie/routes/app_routes.dart';
 import '../routes/app_router.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,9 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lavie',
-      initialRoute: AppRoutes.welcome,
-      onGenerateRoute: AppRouter.generateRoute,
-      navigatorObservers: [AppRouteObserver.instance],
+      initialRoute: AppRoutes.passwordResetedOk,
+      onGenerateRoute: AppRouter.generateRoute
     );
   }
 }

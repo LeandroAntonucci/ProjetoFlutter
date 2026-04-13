@@ -5,6 +5,7 @@ export './auth/login_screen.dart';
 export './auth/register_screen.dart';
 export './auth/reset_password_screen.dart';
 export './auth/welcome_screen.dart';
+export './auth/password_reseted_ok.dart';
 
 // Onboarding Screens
 

@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 class TopCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
+    final path = Path();
 
-    path.lineTo(0, size.height - 80);
+    final curveHeight = size.height * 0.25; // 🔥 relativo
+
+    path.lineTo(0, size.height - curveHeight);
 
     path.quadraticBezierTo(
-      size.width / 2,
+      size.width * 0.5,
       size.height,
       size.width,
-      size.height - 80,
+      size.height - curveHeight,
     );
 
     path.lineTo(size.width, 0);
@@ -21,5 +23,5 @@ class TopCurveClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
