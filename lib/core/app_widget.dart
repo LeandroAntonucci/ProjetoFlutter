@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lavie',
-      initialRoute: AppRoutes.passwordResetedOk,
-      onGenerateRoute: AppRouter.generateRoute
+      initialRoute: AppRoutes.resetPassword,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }

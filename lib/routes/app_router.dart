@@ -22,7 +22,6 @@ class AppRouter {
         // 🚀 ENTRY POINT (/)
         // =========================
         if (route == AppRoutes.welcome) {
-          
           if (!isLogged) {
             return const WelcomeScreen();
           }
@@ -57,6 +56,9 @@ class AppRouter {
           case AppRoutes.forgotPassword:
             return const ForgotPasswordScreen();
 
+          case AppRoutes.resetPassword:
+            return const ResetPasswordScreen();
+
           case AppRoutes.passwordResetedOk:
             return const PasswordChangedScreen();
 
@@ -79,10 +81,7 @@ class AppRouter {
   }
 
   static bool _isProtected(String? route) {
-    return [
-      AppRoutes.main,
-      AppRoutes.tasks,
-    ].contains(route);
+    return [AppRoutes.main, AppRoutes.tasks].contains(route);
   }
 
   static bool _isAuthRoute(String? route) {
