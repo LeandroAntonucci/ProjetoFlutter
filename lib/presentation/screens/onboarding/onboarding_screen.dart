@@ -51,17 +51,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onChanged: (v) => nome = v,
           ),
 
-          // IdadeStep(
-          //   onNext: nextPage,
-          //   onBack: previousPage,
-          //   onChanged: (v) => idade = v,
-          // ),
+          IdadeStep(
+            onNext: nextPage,
+            onBack: previousPage,
+            onChanged: (v) => idade = v,
+          ),
 
-          // PesoStep(
-          //   onNext: nextPage,
-          //   onBack: previousPage,
-          //   onChanged: (v) => peso = v,
-          // ),
+          PesoStep(
+            onNext: nextPage,
+            onBack: previousPage,
+            onChanged: (v) => peso = v,
+          ),
 
           ObjetivoStep(
             onNext: nextPage,
