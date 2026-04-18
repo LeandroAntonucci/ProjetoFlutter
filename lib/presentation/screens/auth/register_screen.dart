@@ -13,7 +13,7 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔹 Fundo verde com efeito
+    
           Container(
             height: size.height * 0.4,
             decoration: const BoxDecoration(
@@ -25,7 +25,6 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
 
-          // 🔹 Conteúdo branco com borda arredondada
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -40,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Sign up",
+                      "Se registre",
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -52,13 +51,13 @@ class RegisterScreen extends StatelessWidget {
                     buildInput("Email", "demo@email.com"),
                     buildInput("Phone no", "+00 000-0000-000"),
                     buildInput(
-                      "Password",
-                      "Enter your password",
+                      "Senha",
+                      "Digite sua senha",
                       isPassword: true,
                     ),
                     buildInput(
-                      "Confirm Password",
-                      "Confirm your password",
+                      "Confirmar senha",
+                      "Confirme sua senha",
                       isPassword: true,
                     ),
 
@@ -84,12 +83,12 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            AppRoutes.login,
+                            AppRoutes.onboarding,
                             (route) => false,
                           );
                         },
                         child: Text(
-                          'Back to Login',
+                          'Avançar >>>',
                           style: AppTextStyles.button.copyWith(
                             color: AppColors.textOnMain,
                           ),
@@ -97,25 +96,34 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // 🔹 Texto login
-                    Center(
-                      child: RichText(
-                        text: const TextSpan(
-                          text: "Already have an Account? ",
-                          style: TextStyle(color: Colors.grey),
-                          children: [
-                            TextSpan(
-                              text: "Login",
-                              style: TextStyle(
-                                color: Color(0xFF00C9A7),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                      Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.login,
+                                      );
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: 'Já tem  uma conta? ',
+                                        style: AppTextStyles.helper.copyWith(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Fazer Login',
+                                            style: AppTextStyles.helper.copyWith(
+                                              color: AppColors.main,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),                    
                   ],
                 ),
               ),

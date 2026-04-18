@@ -1,53 +1,54 @@
 import 'package:flutter/material.dart';
 import '../screens.dart';
+import 'app_bottom_navigation.dart';
+import 'custom_app_bar.dart';
+
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialIndex;
+
+  const MainScreen({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _index = 0;
+  late int _index;
 
   final List<Widget> _pages = const [
-    MainScreen(),
+    HomeScreen(),
     ChatScreen(),
     TaskScreen(),
     SettingsScreen(),
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _index = widget.initialIndex;
+  }
+
+  void _onTap(int i) {
+    setState(() {
+      _index = i;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_index],
-
-      bottomNavigationBar: BottomNavigationBar(
+      appBar: const CustomAppBar(),
+      body: IndexedStack(
+        index: _index,
+        children: _pages,
+      ),
+      bottomNavigationBar: AppBottomNavigation(
         currentIndex: _index,
-        onTap: (i) {
-          setState(() {
-            _index = i;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendário',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Tasks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Config',
-          ),
-        ],
+        onTap: _onTap,
       ),
     );
   }

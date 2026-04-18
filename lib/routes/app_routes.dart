@@ -19,6 +19,7 @@ class AppRoutes {
 
   // CHAT
 
+  static const chat = '/chat';
 
   // TASKS
   static const tasks = '/tasks';
@@ -28,4 +29,5 @@ class AppRoutes {
 
   // SETTINGS
 
+  static const settings = '/settings';
 }

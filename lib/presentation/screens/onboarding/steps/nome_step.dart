@@ -33,7 +33,7 @@ class _NomeStepState extends State<NomeStep> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
-        final maxWidth = isMobile ? constraints.maxWidth : 520.0;
+        final maxWidth = isMobile ? constraints.maxWidth : 540.0;
         final horizontalPadding = isMobile ? 20.0 : 28.0;
 
         return Container(
@@ -46,7 +46,7 @@ class _NomeStepState extends State<NomeStep> {
                   vertical: 8,
                 ),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 520),
+                  constraints: const BoxConstraints(maxWidth: 540),
                   child: Container(
                     width: maxWidth,
                     decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class _NomeStepState extends State<NomeStep> {
                             const SizedBox(height: 26),
                             Center(
                               child: Text(
-                                'What is your\nname?',
+                                'Qual o seu\nnome?',
                                 textAlign: TextAlign.center,
                                 style: AppTextStyles.h1.copyWith(
                                   color: const Color(0xFF2E214D),
@@ -106,17 +106,12 @@ class _NomeStepState extends State<NomeStep> {
                                 color: Colors.black87,
                               ),
                               decoration: InputDecoration(
-                                hintText: 'I enter your Name',
+                                hintText: 'Escreva seu nome',
                                 hintStyle: AppTextStyles.inputPlaceholder.copyWith(
                                   color: Colors.grey.shade500,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.person_outline,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                suffixIcon: const Icon(
-                                  Icons.visibility_off_outlined,
                                   size: 18,
                                   color: Colors.grey,
                                 ),

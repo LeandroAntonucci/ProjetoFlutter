@@ -14,6 +14,7 @@ export './onboarding/onboarding_screen.dart';
 // Home Screens
 
 export 'home/main_screen.dart';
+export '../screens/home/home_screen.dart';
 
 // Task Screens
 

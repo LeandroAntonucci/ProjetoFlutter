@@ -31,7 +31,7 @@ class _IdadeStepState extends State<IdadeStep> {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
+            constraints: const BoxConstraints(maxWidth: 440),
             child: Container(
               margin: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class _IdadeStepState extends State<IdadeStep> {
                     const SizedBox(height: 24),
 
                     Text(
-                      "What is your age?",
+                      "Qual sua idade?",
                       textAlign: TextAlign.center,
                       style: AppTextStyles.h2.copyWith(
                         color: const Color(0xFF2E214D),
@@ -126,15 +126,6 @@ class _IdadeStepState extends State<IdadeStep> {
 
                           widget.onChanged(value);
                         },
-                      ),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    Text(
-                      "years old",
-                      style: AppTextStyles.helper.copyWith(
-                        color: Colors.black87,
                       ),
                     ),
 

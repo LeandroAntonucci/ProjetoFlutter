@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './steps/steps.dart';
+import '../../../routes/app_routes.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -38,7 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: PageView(
         controller: _controller,
-        physics: const NeverScrollableScrollPhysics(), 
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() => currentPage = index);
         },
@@ -72,7 +73,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           FinalStep(
             nome: nome,
             onFinish: () {
-              // aqui você pode navegar pra home
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.main,
+                (route) => false,
+              );
             },
           ),
         ],

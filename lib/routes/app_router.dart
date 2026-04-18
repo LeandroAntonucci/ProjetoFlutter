@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../core/services/auth_service.dart';
 import 'app_routes.dart';
-
-// screens
 import '../../presentation/screens/screens.dart';
 
 class AppRouter {
@@ -12,40 +10,31 @@ class AppRouter {
     return MaterialPageRoute(
       builder: (context) {
         final auth = context.watch<AuthService>();
+        final route = settings.name;
 
         final isLogged = auth.isLoggedIn;
         final seenOnboarding = auth.hasSeenOnboarding;
 
-        final route = settings.name;
+        // if (route == AppRoutes.welcome) {
+        //   if (!seenOnboarding) {
+        //     return const OnboardingScreen();
+        //   }
 
-        // =========================
-        // 🚀 ENTRY POINT (/)
-        // =========================
-        if (route == AppRoutes.welcome) {
-          if (!isLogged) {
-            return const WelcomeScreen();
-          }
+        //   if (!isLogged) {
+        //     return const WelcomeScreen();
+        //   }
 
-          return const MainScreen();
-        }
+        //   return const MainScreen();
+        // }
 
-        // =========================
-        // 🔐 PROTEÇÃO
-        // =========================
-        if (_isProtected(route) && !isLogged) {
-          return const LoginScreen();
-        }
+        // if (_isProtected(route) && !isLogged) {
+        //   return const LoginScreen();
+        // }
 
-        // =========================
-        // 🔓 BLOQUEAR AUTH SE LOGADO
-        // =========================
-        if (_isAuthRoute(route) && isLogged) {
-          return const MainScreen();
-        }
+        // if (_isAuthRoute(route) && isLogged) {
+        //   return const MainScreen();
+        // }
 
-        // =========================
-        // 📍 ROTAS
-        // =========================
         switch (route) {
           case AppRoutes.login:
             return const LoginScreen();
@@ -66,10 +55,16 @@ class AppRouter {
             return const OnboardingScreen();
 
           case AppRoutes.main:
-            return const MainScreen();
+            return const MainScreen(initialIndex: 0);
+
+          case AppRoutes.chat:
+            return const MainScreen(initialIndex: 2);
 
           case AppRoutes.tasks:
-            return const TaskScreen();
+            return const MainScreen(initialIndex: 1);
+
+          case AppRoutes.settings:
+            return const MainScreen(initialIndex: 3);
 
           default:
             return const Scaffold(
@@ -81,7 +76,12 @@ class AppRouter {
   }
 
   static bool _isProtected(String? route) {
-    return [AppRoutes.main, AppRoutes.tasks].contains(route);
+    return [
+      AppRoutes.main,
+      AppRoutes.chat,
+      AppRoutes.tasks,
+      AppRoutes.settings,
+    ].contains(route);
   }
 
   static bool _isAuthRoute(String? route) {
@@ -89,6 +89,7 @@ class AppRouter {
       AppRoutes.login,
       AppRoutes.register,
       AppRoutes.forgotPassword,
+      AppRoutes.resetPassword,
     ].contains(route);
   }
 }
