@@ -153,10 +153,9 @@ class _TaskCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Barra lateral colorida
           Container(
             width: 35,
-            height: 180, // Altura fixa ou calculada
+            height: 220, // Altura fixa ou calculada
             decoration: BoxDecoration(
               color: accentColor,
               borderRadius: const BorderRadius.only(

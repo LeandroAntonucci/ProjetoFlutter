@@ -48,7 +48,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          // Área de Mensagens
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(20),

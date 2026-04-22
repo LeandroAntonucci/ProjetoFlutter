@@ -49,6 +49,7 @@ app.*.map.json
 .agents/
 .firebaserc
 firebase.json
+/lib/firebase_options.dart
 
 #VS code config
 

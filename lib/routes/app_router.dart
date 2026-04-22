@@ -13,27 +13,24 @@ class AppRouter {
         final route = settings.name;
 
         final isLogged = auth.isLoggedIn;
-        final seenOnboarding = auth.hasSeenOnboarding;
 
-        // if (route == AppRoutes.welcome) {
-        //   if (!seenOnboarding) {
-        //     return const OnboardingScreen();
-        //   }
+        final hasSeenOnboarding = auth.hasSeenOnboarding;
 
-        //   if (!isLogged) {
-        //     return const WelcomeScreen();
-        //   }
+        if (route == AppRoutes.welcome && !isLogged) { 
+            return const WelcomeScreen();
+        }
 
-        //   return const MainScreen();
-        // }
+        if (_isProtected(route) && !isLogged) {
+          return const LoginScreen();
+        }
 
-        // if (_isProtected(route) && !isLogged) {
-        //   return const LoginScreen();
-        // }
+        if (_isAuthRoute(route) && isLogged) {
+          return const MainScreen();
+        }
 
-        // if (_isAuthRoute(route) && isLogged) {
-        //   return const MainScreen();
-        // }
+        if(route == AppRoutes.onboarding && !hasSeenOnboarding) {
+          return const OnboardingScreen();
+        }
 
         switch (route) {
           case AppRoutes.login:

@@ -1,11 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart'; // Sugestão para ícones parecidos com a imagem
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:provider/provider.dart'; // Necessário para o context.read
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../routes/app_routes.dart';
+import '../../../core/services/auth_service.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isLoading = false;
+
+  
+  Future<void> _handleLogout() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Sair'),
+        content: const Text('Deseja realmente sair da sua conta?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Sair', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      setState(() => _isLoading = true);
+      try {
+        final auth = context.read<AuthService>();
+        await auth.logout(); 
+        if (mounted) {
+          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Erro ao sair. Tente novamente.')),
+          );
+        }
+      } finally {
+        if (mounted) setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,66 +69,61 @@ class SettingsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        children: [
-          _buildMenuItem(
-            icon: LucideIcons.bell,
-            title: 'Configurações da senha',
-            onTap: () => Navigator.pushNamed(context, AppRoutes.resetPassword),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator())
+        : ListView(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            children: [
+              _buildMenuItem(
+                icon: LucideIcons.lock,
+                title: 'Configurações da senha',
+                onTap: () => Navigator.pushNamed(context, AppRoutes.resetPassword),
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.userX,
+                title: 'Deletar conta',
+                onTap: () {
+                  // Lógica para deletar conta
+                },
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.bell,
+                title: 'Gerenciar notificações',
+                onTap: () {},
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.helpCircle,
+                title: 'Suporte',
+                trailing: const Icon(LucideIcons.externalLink, size: 20, color: AppColors.cardExercise),
+                onTap: () {},
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.smartphone,
+                title: 'Acessibilidade',
+                onTap: () {},
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.scroll,
+                title: 'Política de privacidade',
+                trailing: const Icon(LucideIcons.externalLink, size: 20, color: AppColors.main),
+                onTap: () {},
+              ),
+              _buildDivider(),
+              _buildMenuItem(
+                icon: LucideIcons.logOut,
+                title: 'Sair',
+                onTap: _handleLogout, 
+              ),
+            ],
           ),
-          _buildDivider(),
-          _buildMenuItem(
-          icon: LucideIcons.user,
-            title: 'Deletar conta',
-            onTap: () {
-              // Lógica para deletar conta
-            },
-          ),
-          _buildDivider(),
-          _buildMenuItem(
-            icon: LucideIcons.bell,
-            title: 'Gerenciar notificações',
-            onTap: () {},
-          ),
-          _buildDivider(),
-          _buildMenuItem(
-            icon: LucideIcons.helpCircle,
-            title: 'Supporte',
-            trailing: const Icon(LucideIcons.externalLink, size: 20, color: AppColors.cardExercise),
-            onTap: () {},
-          ),
-          _buildDivider(),
-          _buildMenuItem(
-            icon: LucideIcons.smartphone,
-            title: 'Acessibilidade',
-            onTap: () {},
-          ),
-          _buildDivider(),
-          _buildMenuItem(
-            icon: LucideIcons.scroll,
-            title: 'Politica de privacidade',
-            trailing: const Icon(LucideIcons.externalLink, size: 20, color: AppColors.main),
-            onTap: () {},
-          ),
-          _buildDivider(),
-          _buildMenuItem(
-            icon: LucideIcons.logOut,
-            title: 'Sair',
-            onTap: () {
-             Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.login,
-                (route) => false,
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 
-  // Widget auxiliar para construir os itens da lista
   Widget _buildMenuItem({
     required IconData icon,
     required String title,
@@ -91,7 +135,7 @@ class SettingsScreen extends StatelessWidget {
       title: Text(
         title,
         style: AppTextStyles.body.copyWith(
-          color: const Color(0xFF1A1A40), 
+          color: const Color(0xFF1A1A40),
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -101,7 +145,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // Divisor customizado conforme a imagem
   Widget _buildDivider() {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
