@@ -1,115 +1,257 @@
 # 📱 App de Gestão de Hábitos para Idosos
 
+Aplicativo mobile desenvolvido com **Flutter** e **Dart**, com backend separado em **TypeScript + Express + Prisma**, voltado para o acompanhamento de hábitos diários e suporte com chatbot/IA.
+
+---
+
 ## 🧠 Sobre o Projeto
-Este projeto consiste no desenvolvimento de um aplicativo mobile (Android e iOS) utilizando Flutter, com foco em auxiliar idosos na gestão de hábitos diários.
 
-A aplicação permitirá o acompanhamento de atividades essenciais como:
-- 💧 Beber água  
-- 💊 Tomar medicamentos  
-- 🏃 Praticar exercícios  
-- 🍽 Alimentação  
+Este projeto consiste em um aplicativo mobile para Android e iOS com foco em auxiliar idosos na gestão de hábitos diários, como:
 
-Além disso, contará com um Chatbot com Inteligência Artificial para auxiliar o usuário de forma simples e acessível.
+- 💧 Beber água
+- 💊 Tomar medicamentos
+- 🏃 Praticar exercícios
+- 🍽 Alimentação
+
+A aplicação também possui autenticação, cadastro e acompanhamento de hábitos, além de integração com chatbot e recursos de IA.
 
 ---
 
 ## 🎯 Objetivo
-Desenvolver uma solução intuitiva, acessível e funcional que ajude idosos a manterem uma rotina saudável, utilizando tecnologia de forma simples e eficiente.
+
+Desenvolver uma solução intuitiva, acessível e funcional para ajudar idosos a manter uma rotina saudável, usando tecnologia de forma simples e eficiente.
 
 ---
 
 ## 🚀 Funcionalidades
 
-- 🔐 Autenticação de usuário (Login)
 - 📋 Cadastro de hábitos
 - 📊 Visualização de hábitos
 - ✅ Marcação de hábitos como concluídos
 - 🤖 Chatbot interativo
 - 🧠 Integração com API de Inteligência Artificial
+- 🗄️ Persistência de dados via backend + PostgreSQL
 
 ---
 
-## 🏗️ Arquitetura do Projeto
+## 🧰 Tech Stack
 
-O projeto está organizado da seguinte forma:
-
-lib/
-├── core/
-│ ├── constants/
-│ ├── utils/
-│ ├── theme/
-│ └── services/
-├── data/
-│ ├── datasources/
-│ ├── models/
-│ └── repositories/
-├── domain/
-│ ├── entities/
-│ ├── repositories/
-│ └── usecases/
-├── presentation/
-│ ├── controllers/
-│ ├── screens/
-│ └── widgets/
-├── routes/
-└── main.dart
-
-## 🛠️ Tecnologias Utilizadas (A melhorar)
+### Frontend
 
 - Flutter
 - Dart
-- PostgreSQL
-- API de Inteligência Artificial
+- Provider
+- Firebase Auth
+- Shared Preferences
+- HTTP
+
+### Backend
+
+- Node.js
+- TypeScript
+- Express
+- Prisma ORM
+- PrismaPostgresQL
+- dotenv
 
 ---
 
-## 📅 Cronograma (Sprints)
+## 📦 Pré-requisitos
 
-| Sprint | Data | Entrega |
-|--------|------|--------|
-| S1 | 04/04/2026 | Arquitetura + Layout |
-| S2 | 11/04/2026 | Navegação |
-| S3 | 18/04/2026 | Banco de dados + CRUD |
-| S4 | 25/04/2026 | Login |
-| S5 | 02/05/2026 | Funcionalidades de hábitos |
-| S6 | 09/05/2026 | Chatbot |
-| S7 | 16/05/2026 | Integração com IA |
-| S8 | 23/05/2026 | Testes e entrega final |
+Antes de rodar o projeto, você precisa ter instalado:
+
+- **Flutter SDK**
+- **Dart** (vem com o Flutter)
+- **Node.js** (recomendado LTS)
+- **npm**
+- **Git**
+
+---
+
+## 🗂️ Estrutura do Projeto
+
+A estrutura atual do repositório está organizada assim:
+
+```text
+ProjetoFlutter/
+├── api/                      # Backend em TypeScript + Express + Prisma
+├── lib/                      # App Flutter
+├── android/
+├── ios/
+├── web/
+├── windows/
+├── macos/
+├── linux/
+├── assets/
+├── firebase.json
+├── pubspec.yaml
+└── README.md
+```
+
+### Estrutura do Flutter (`lib/`)
+
+```text
+lib/
+├── core/
+│   ├── constants/
+│   └── services/
+├── data/
+│   ├── datasources/
+│   ├── models/
+│   └── repositories/
+├── observers/
+├── presentation/
+│   ├── controllers/
+│   ├── screens/
+│   └── widgets/
+├── routes/
+├── firebase_options.dart
+└── main.dart
+```
+
+### Estrutura do Backend (`api/`)
+
+```text
+api/
+├── src/
+├── modules/
+├── prisma/
+├── generated/
+├── package.json
+├── tsconfig.json
+├── prisma.config.ts
+└── .env
+```
+
+---
+
+## ⚙️ Como Rodar o Projeto
+
+O projeto possui **duas partes** que precisam ser executadas separadamente:
+
+1. **Backend** (`api/`)
+2. **Flutter app** (raiz do repositório)
+
+---
+
+## 1) Rodar o Backend (`api/`)
+
+Entre na pasta `api`:
+
+```bash
+cd api
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+### Variáveis de ambiente
+
+Crie o arquivo `.env` dentro de `api/` com as variáveis necessárias. Exemplo:
+
+```env
+DATABASE_URL="sua-string-do-prisma-postgres"
+```
+
+> Ajuste os nomes e valores conforme sua implementação.
+
+### Prisma
+
+Se for a primeira vez que você está configurando o banco, execute as etapas abaixo dentro de `api/`:
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+Use:
+
+- **`npx prisma generate`** quando o schema mudar e você precisar regenerar o client.
+- **`npx prisma migrate dev`** quando precisar criar/aplicar migrations no banco durante o desenvolvimento.
+
+```bash
+npm run dev
+```
+
+---
+
+## 2) Rodar o Flutter App
+
+Volte para a raiz do projeto:
+
+```bash
+cd ..
+```
+
+Instale as dependências do Flutter:
+
+```bash
+flutter pub get
+```
+
+Para verificar os dispositivos disponíveis:
+
+```bash
+flutter devices
+```
+
+Para rodar no dispositivo desejado:
+
+```bash
+flutter run -d <device_id>
+```
+
+Exemplo:
+
+```bash
+flutter run -d emulator-5554
+```
+
+Se preferir rodar sem especificar dispositivo, basta:
+
+```bash
+flutter run
+```
+
+## 🗄️ Banco de Dados
+
+O banco é gerenciado com **Prisma ORM** e pode ser conectado ao **Prisma Postgres** ou a outro PostgreSQL compatível.
+
+Se você alterar o schema:
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
 
 ---
 
 ## 📱 Telas do Aplicativo
 
-- Tela de Login  
-- Tela principal (visualização de hábitos)  
-- Tela de cadastro de hábitos  
-- Tela de Chatbot com IA  
+- Tela de Login
+- Tela Principal
+- Tela de Cadastro de Hábitos
+- Tela de Chatbot com IA
+- Tela de Configurações
+- Telas de Onboarding
 
 ---
 
-## 🧪 Status do Projeto
+## ✅ Checklist rápido para rodar sem problemas
 
-🚧 Em desenvolvimento — seguindo metodologia baseada em sprints semanais.
+1. Clonar o repositório.
+2. Rodar `npm install` dentro de `api/`.
+3. Configurar o `.env` da API.
+4. Rodar `npx prisma generate` e `npx prisma migrate dev` dentro de `api/`.
+5. Rodar `npm run dev` dentro de `api/`.
+6. Na raiz do projeto, rodar `flutter pub get`.
+7. Executar `flutter run -d <device_id>`.
 
 ---
 
-## 👥 Equipe
+## 📄 Licença
 
-Projeto desenvolvido em grupo como parte do curso de Ciência da Computação.
-
----
-
-## 📌 Como Executar o Projeto
-
-```bash
-# Clone o repositório
-git clone <url-do-repositorio>
-
-# Acesse a pasta
-cd nome-do-projeto
-
-# Instale as dependências
-flutter pub get
-
-# Execute o projeto
-flutter run
+Uso acadêmico e/ou interno do projeto.
