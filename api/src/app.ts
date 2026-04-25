@@ -1,4 +1,3 @@
-// src/app.ts
 import express from "express";
 import usersRouter from "../modules/users/users.routes";
 // import authRouter from "../modules/auth/auth.routes";

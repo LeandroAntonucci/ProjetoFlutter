@@ -99,9 +99,7 @@ lib/
 │   ├── datasources/
 │   ├── models/
 │   └── repositories/
-├── observers/
 ├── presentation/
-│   ├── controllers/
 │   ├── screens/
 │   └── widgets/
 ├── routes/
@@ -150,7 +148,7 @@ npm install
 
 ### Variáveis de ambiente
 
-Crie o arquivo `.env` dentro de `api/` com as variáveis necessárias. Exemplo:
+Modifique o arquivo `.env.example` dentro de `api/` com as variáveis necessárias. Exemplo:
 
 ```env
 DATABASE_URL="sua-string-do-prisma-postgres"
@@ -171,10 +169,6 @@ Use:
 
 - **`npx prisma generate`** quando o schema mudar e você precisar regenerar o client.
 - **`npx prisma migrate dev`** quando precisar criar/aplicar migrations no banco durante o desenvolvimento.
-
-```bash
-npm run dev
-```
 
 ---
 
@@ -244,11 +238,10 @@ npx prisma migrate dev
 
 1. Clonar o repositório.
 2. Rodar `npm install` dentro de `api/`.
-3. Configurar o `.env` da API.
+3. Configurar o `.env.example` da `api/`.
 4. Rodar `npx prisma generate` e `npx prisma migrate dev` dentro de `api/`.
-5. Rodar `npm run dev` dentro de `api/`.
-6. Na raiz do projeto, rodar `flutter pub get`.
-7. Executar `flutter run -d <device_id>`.
+5. Na raiz do projeto, rodar `flutter pub get`.
+6. Executar `flutter run -d <device_id>`.
 
 ---
 

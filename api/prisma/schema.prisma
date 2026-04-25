@@ -1,27 +1,131 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
 }
-  
+
 datasource db {
   provider = "postgresql"
+
 }
 
-model User { 
-  id    Int     @id @default(autoincrement()) 
-  email String  @unique
-  name  String?
-  posts Post[]
+enum UserRole {
+  USER
+  CAREGIVER
+  ADMIN
 }
 
-model Post { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String?
-  published Boolean @default(false) 
-  author    User    @relation(fields: [authorId], references: [id]) 
-  authorId  Int
-} 
+enum Frequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum IntervalUnit {
+  DAY
+  WEEK
+  MONTH
+}
+
+enum TaskCategory {
+  WATER
+  MEDICATION
+  EXERCISE
+  MEAL
+  OTHER
+}
+
+enum TaskStatus {
+  PENDING
+  DONE
+  MISSED
+  PAUSED
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
+  name           String?
+  role           UserRole        @default(USER)
+  age            Int?
+  height         Int?
+  weight         Int?
+
+  caregiverId    Int?
+  caregiver      User?           @relation("CaregiverRelation", fields: [caregiverId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  dependents     User[]          @relation("CaregiverRelation")
+
+  attemptsLogin  Int             @default(0)
+  blockedUntil   DateTime?
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  address        Address?
+  tasks          Task[]
+  passwordResets PasswordReset[]
+
+  @@index([caregiverId])
+  @@map("users")
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  uf          String?
+  number      Int?
+  street      String?
+  addressType String?
+  cep         String?
+  complement  String?
+  city        String?
+
+  ownerId     Int      @unique
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("addresses")
+}
+
+model Task {
+  id              Int           @id @default(autoincrement())
+  title           String
+  category        TaskCategory
+  status          TaskStatus    @default(PENDING)
+
+  frequencyType   Frequency
+  intervalValue   Int?
+  intervalUnit    IntervalUnit?
+
+  completionDate  DateTime?
+
+  authorId        Int
+  author          User          @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([authorId])
+  @@index([authorId, status])
+  @@index([frequencyType])
+  @@index([category])
+  @@map("tasks")
+}
+
+model PasswordReset {
+  id          Int      @id @default(autoincrement())
+  tokenHash   String
+  expiresAt   DateTime
+  used        Boolean  @default(false)
+
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([ownerId, used, expiresAt])
+  @@map("password_resets")
+}

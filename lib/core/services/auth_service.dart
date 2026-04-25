@@ -12,27 +12,17 @@ class AuthService extends ChangeNotifier {
   bool _seenOnboarding = false;
   bool _isInitialized = false;
 
-  // =========================
-  // GETTERS
-  // =========================
   User? get user => _auth.currentUser;
-
   bool get isLoggedIn => user != null;
-
   bool get hasSeenOnboarding => _seenOnboarding;
-
   bool get isInitialized => _isInitialized;
 
-  // =========================
-  // INIT (ESSENCIAL)
-  // =========================
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
 
     _seenOnboarding = prefs.getBool('onboarding') ?? false;
 
-    // 🔥 escuta mudanças do Firebase (login/logout)
-    _authSub = _auth.authStateChanges().listen((user) {
+    _authSub = _auth.authStateChanges().listen((_) {
       notifyListeners();
     });
 
@@ -40,9 +30,6 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // =========================
-  // LOGIN EMAIL/SENHA
-  // =========================
   Future<void> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(
@@ -50,13 +37,10 @@ class AuthService extends ChangeNotifier {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw _mapFirebaseError(e);
+      throw Exception(_mapFirebaseError(e));
     }
   }
 
-  // =========================
-  // REGISTER
-  // =========================
   Future<void> register(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
@@ -64,31 +48,22 @@ class AuthService extends ChangeNotifier {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw _mapFirebaseError(e);
+      throw Exception(_mapFirebaseError(e));
     }
   }
 
-  // =========================
-  // LOGOUT
-  // =========================
   Future<void> logout() async {
     await _auth.signOut();
   }
 
-  // =========================
-  // RESET PASSWORD
-  // =========================
   Future<void> forgotPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      throw _mapFirebaseError(e);
+      throw Exception(_mapFirebaseError(e));
     }
   }
 
-  // =========================
-  // ONBOARDING
-  // =========================
   Future<void> completeOnboarding() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -97,7 +72,6 @@ class AuthService extends ChangeNotifier {
 
     notifyListeners();
   }
-
 
   String _mapFirebaseError(FirebaseAuthException e) {
     switch (e.code) {

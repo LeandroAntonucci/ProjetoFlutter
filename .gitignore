@@ -55,4 +55,4 @@ firebase.json
 
 .vscode/
 
-*.env
+.env
