@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_text_styles.dart';
-import '../../../widgets/horizontal_picker.dart';
-import '../../../widgets/primary_button.dart';
+import '../../../widgets/horizontal_picker_widget.dart';
+import '../../../widgets/primary_button_widget.dart';
 
 class IdadeStep extends StatefulWidget {
   final VoidCallback onNext;

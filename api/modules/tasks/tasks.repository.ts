@@ -1,0 +1,1 @@
+import { prisma } from "../../src/shared/prisma";

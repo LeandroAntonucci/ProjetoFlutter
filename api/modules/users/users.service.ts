@@ -1,7 +1,7 @@
 import { upsertUser, listUsers } from "./users.repository";
 
 export async function syncFirebaseUser(payload: {
-  firebaseUid: string;
+  id: number;
   email: string;
   name?: string | null;
   photoUrl?: string | null;

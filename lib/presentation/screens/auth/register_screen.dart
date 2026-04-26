@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../routes/app_routes.dart';
 import '../../../core/services/register_service.dart';
-import '../../widgets/auth_form_section.dart';
-import '../../widgets/auth_screen_shell.dart';
+import '../../widgets/auth_form_section_widget.dart';
+import '../../widgets/auth_screen_shell_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
