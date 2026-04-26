@@ -51,7 +51,7 @@ Desenvolver uma solução intuitiva, acessível e funcional para ajudar idosos a
 - TypeScript
 - Express
 - Prisma ORM
-- PrismaPostgresQL
+- SQlite
 - dotenv
 
 ---
@@ -151,8 +151,10 @@ npm install
 Modifique o arquivo `.env.example` dentro de `api/` com as variáveis necessárias. Exemplo:
 
 ```env
-DATABASE_URL="sua-string-do-prisma-postgres"
+DATABASE_URL="file:./dev.db"
 ```
+
+e corrija o nome do arquivo para .env
 
 > Ajuste os nomes e valores conforme sua implementação.
 
@@ -161,8 +163,9 @@ DATABASE_URL="sua-string-do-prisma-postgres"
 Se for a primeira vez que você está configurando o banco, execute as etapas abaixo dentro de `api/`:
 
 ```bash
-npx prisma generate
 npx prisma migrate dev
+npx prisma generate
+
 ```
 
 Use:
@@ -171,6 +174,7 @@ Use:
 - **`npx prisma migrate dev`** quando precisar criar/aplicar migrations no banco durante o desenvolvimento.
 
 ---
+
 
 ## 2) Rodar o Flutter App
 
@@ -212,13 +216,13 @@ flutter run
 
 ## 🗄️ Banco de Dados
 
-O banco é gerenciado com **Prisma ORM** e pode ser conectado ao **Prisma Postgres** ou a outro PostgreSQL compatível.
+O banco é gerenciado com **Prisma ORM** e pode ser conectado ao **SQlite**.
 
 Se você alterar o schema:
 
 ```bash
-npx prisma generate
 npx prisma migrate dev
+npx prisma generate
 ```
 
 ---
@@ -239,7 +243,7 @@ npx prisma migrate dev
 1. Clonar o repositório.
 2. Rodar `npm install` dentro de `api/`.
 3. Configurar o `.env.example` da `api/`.
-4. Rodar `npx prisma generate` e `npx prisma migrate dev` dentro de `api/`.
+4. Rodar `npx prisma migrate dev --name {nome_da_migração}` e `npx prisma mgenerate` dentro de `api/`.
 5. Na raiz do projeto, rodar `flutter pub get`.
 6. Executar `flutter run -d <device_id>`.
 
