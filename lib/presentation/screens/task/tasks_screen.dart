@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../routes/app_routes.dart';
+import '../../../data/models/task_draft.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -12,12 +13,12 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  String? selectedOption;
+  TaskCategory? selectedOption;
 
   final List<_TaskOption> options = const [
-    _TaskOption(title: 'Exercícios', value: 'exercicios'),
-    _TaskOption(title: 'Refeição', value: 'refeicao'),
-    _TaskOption(title: 'Hidratação', value: 'hidratacao'),
+    _TaskOption(title: 'Exercícios', value: TaskCategory.exercise),
+    _TaskOption(title: 'Refeição', value: TaskCategory.meal),
+    _TaskOption(title: 'Hidratação', value: TaskCategory.water),
   ];
 
   @override
@@ -45,7 +46,6 @@ class _TaskScreenState extends State<TaskScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(height: 18),
-
                           Text(
                             'O que você deseja\nadicionar?',
                             textAlign: TextAlign.center,
@@ -54,9 +54,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-
                           const SizedBox(height: 12),
-
                           Text(
                             'Selecione o que deseja adicionar\n',
                             textAlign: TextAlign.center,
@@ -64,31 +62,22 @@ class _TaskScreenState extends State<TaskScreen> {
                               color: Colors.black45,
                             ),
                           ),
-
                           const SizedBox(height: 34),
-
                           ...options.map((option) {
-                            final isEmpty = option.title.isEmpty;
-
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: _optionCard(
                                 text: option.title,
                                 selected: selectedOption == option.value,
-                                disabled: isEmpty,
-                                onTap: isEmpty
-                                    ? null
-                                    : () {
-                                        setState(() {
-                                          selectedOption = option.value;
-                                        });
-                                      },
+                                onTap: () {
+                                  setState(() {
+                                    selectedOption = option.value;
+                                  });
+                                },
                               ),
                             );
                           }),
-
                           const Spacer(),
-
                           SizedBox(
                             width: double.infinity,
                             height: 54,
@@ -106,7 +95,10 @@ class _TaskScreenState extends State<TaskScreen> {
                                   : () {
                                       Navigator.pushNamed(
                                         context,
-                                        AppRoutes.taskType,
+                                        AppRoutes.taskCreate,
+                                        arguments: TaskCreationArgs(
+                                          category: selectedOption!,
+                                        ),
                                       );
                                     },
                               child: Text(
@@ -133,8 +125,7 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget _optionCard({
     required String text,
     required bool selected,
-    required bool disabled,
-    VoidCallback? onTap,
+    required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -146,9 +137,7 @@ class _TaskScreenState extends State<TaskScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: disabled
-                ? const Color(0xFFE0E0E0)
-                : selected
+            color: selected
                 ? const Color(0xFF312D49)
                 : const Color(0xFFE0E0E0),
             width: 1.4,
@@ -167,7 +156,7 @@ class _TaskScreenState extends State<TaskScreen> {
           text,
           textAlign: TextAlign.center,
           style: AppTextStyles.helper.copyWith(
-            color: disabled ? Colors.transparent : Colors.black,
+            color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -178,7 +167,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
 class _TaskOption {
   final String title;
-  final String value;
+  final TaskCategory value;
 
   const _TaskOption({required this.title, required this.value});
 }

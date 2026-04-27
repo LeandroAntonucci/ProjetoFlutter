@@ -53,7 +53,7 @@ class _UsersTestScreenState extends State<UsersTestScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
-              }
+              } 
 
               if (snapshot.hasError) {
                 return Text('Erro ao carregar usuários: ${snapshot.error}');

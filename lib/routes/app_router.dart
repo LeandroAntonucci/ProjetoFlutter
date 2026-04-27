@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../core/services/auth_service.dart';
 import './app_routes.dart';
 import '../../presentation/screens/screens.dart';
+import '../data/models/task_draft.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -65,6 +66,23 @@ class AppRouter {
 
             case AppRoutes.tests:
               return const UsersTestScreen();
+
+           case AppRoutes.taskCreate:
+              final args = settings.arguments as TaskCreationArgs?;
+
+              if (args == null) {
+                return const Scaffold(
+                  body: Center(child: Text('Categoria da task não informada')),
+                );
+              }
+
+              return TaskCreateScreen(category: args.category);
+
+            case AppRoutes.taskSuccess:
+              return const TaskSuccessScreen();
+
+            case AppRoutes.taskSuccess:
+              return const TaskSuccessScreen();
 
           default:
             return const Scaffold(
