@@ -48,7 +48,12 @@ class AuthFormSection extends StatelessWidget {
     final horizontalPadding = isMobile ? 20.0 : 28.0;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(horizontalPadding, 14, horizontalPadding, 18),
+      padding: EdgeInsets.fromLTRB(
+        horizontalPadding,
+        14,
+        horizontalPadding,
+        18,
+      ),
       child: Form(
         key: formKey,
         child: Column(
@@ -74,9 +79,7 @@ class AuthFormSection extends StatelessWidget {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              style: AppTextStyles.inputText.copyWith(
-                color: Colors.black87,
-              ),
+              style: AppTextStyles.inputText.copyWith(color: Colors.black87),
               decoration: InputDecoration(
                 hintText: 'nome@email.com',
                 hintStyle: AppTextStyles.inputPlaceholder.copyWith(
@@ -102,10 +105,7 @@ class AuthFormSection extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(
-                    color: AppColors.main,
-                    width: 2,
-                  ),
+                  borderSide: const BorderSide(color: AppColors.main, width: 2),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -142,9 +142,7 @@ class AuthFormSection extends StatelessWidget {
               obscureText: obscurePassword,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => onSubmit(),
-              style: AppTextStyles.inputText.copyWith(
-                color: Colors.black87,
-              ),
+              style: AppTextStyles.inputText.copyWith(color: Colors.black87),
               decoration: InputDecoration(
                 hintText: 'Digite sua senha',
                 hintStyle: AppTextStyles.inputPlaceholder.copyWith(
@@ -180,10 +178,7 @@ class AuthFormSection extends StatelessWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(
-                    color: AppColors.main,
-                    width: 2,
-                  ),
+                  borderSide: const BorderSide(color: AppColors.main, width: 2),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -226,10 +221,7 @@ class AuthFormSection extends StatelessWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
-                    side: const BorderSide(
-                      color: AppColors.border,
-                      width: 1,
-                    ),
+                    side: const BorderSide(color: AppColors.border, width: 1),
                   ),
                 ),
                 onPressed: loading ? null : () => onSubmit(),
