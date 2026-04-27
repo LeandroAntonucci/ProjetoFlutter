@@ -1,14 +1,13 @@
-import { upsertUser, listUsers } from "./users.repository";
+import { listUsers } from "./users.repository";
+import type { UserDTO } from "./users.dto";
 
-export async function syncFirebaseUser(payload: {
-  id: number;
-  email: string;
-  name?: string | null;
-  photoUrl?: string | null;
-}) {
-  return upsertUser(payload);
-}
+export async function getAllUsers(): Promise<UserDTO[]> {
+  const users = await listUsers();
 
-export async function getAllUsers() {
-  return listUsers();
+  return users.map((u) => ({
+    id: u.id,
+    email: u.email,
+    name: u.name,
+    role: u.role,
+  }));
 }

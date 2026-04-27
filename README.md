@@ -95,6 +95,8 @@ lib/
 ├── core/
 │   ├── constants/
 │   └── services/
+│   └── config/
+│   └── network/
 ├── data/
 │   ├── datasources/
 │   ├── models/
@@ -152,6 +154,7 @@ Modifique o arquivo `.env.example` dentro de `api/` com as variáveis necessári
 
 ```env
 DATABASE_URL="file:./dev.db"
+PORT = porta_da_minha_aplicacao
 ```
 
 e corrija o nome do arquivo para .env
@@ -165,6 +168,7 @@ Se for a primeira vez que você está configurando o banco, execute as etapas ab
 ```bash
 npx prisma migrate dev
 npx prisma generate
+npm run start
 
 ```
 
@@ -172,6 +176,25 @@ Use:
 
 - **`npx prisma generate`** quando o schema mudar e você precisar regenerar o client.
 - **`npx prisma migrate dev`** quando precisar criar/aplicar migrations no banco durante o desenvolvimento.
+- **`npm run start`** para iniciar a aplicação express.
+
+---
+
+Se for configurar o banco com dados de teste, execute as etapas abaixo dentro de `api/`:
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+npx prisma db seed
+
+```
+
+Use:
+
+- **`npx prisma generate`** quando o schema mudar e você precisar regenerar o client.
+- **`npx prisma migrate dev`** quando precisar criar/aplicar migrations no banco durante o desenvolvimento.
+- **`npx prisma db seed`** para popular o banco de dados com dados nos arquivos de seed.
+
 
 ---
 
@@ -224,7 +247,9 @@ Se você alterar o schema:
 npx prisma migrate dev
 npx prisma generate
 ```
+Será gerado um arquivo .db, com base no:
 
+DATABASE_URL="local_do_seu_.db"
 ---
 
 ## 📱 Telas do Aplicativo
@@ -245,7 +270,8 @@ npx prisma generate
 3. Configurar o `.env.example` da `api/`.
 4. Rodar `npx prisma migrate dev --name {nome_da_migração}` e `npx prisma mgenerate` dentro de `api/`.
 5. Na raiz do projeto, rodar `flutter pub get`.
-6. Executar `flutter run -d <device_id>`.
+6. Executar `npm run start` dentro de `api/` para iniciar a aplicação express.
+7. Executar `flutter run -d <device_id>` para iniciar a aplicação flutter.
 
 ---
 

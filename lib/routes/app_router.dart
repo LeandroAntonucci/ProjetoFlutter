@@ -63,6 +63,9 @@ class AppRouter {
           case AppRoutes.settings:
             return const MainScreen(initialIndex: 3);
 
+            case AppRoutes.tests:
+              return const UsersTestScreen();
+
           default:
             return const Scaffold(
               body: Center(child: Text("Rota não encontrada")),

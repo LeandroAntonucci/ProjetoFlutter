@@ -30,4 +30,8 @@ class AppRoutes {
   // SETTINGS
 
   static const settings = '/settings';
+
+  // TESTS
+
+  static const tests = '/tests';
 }

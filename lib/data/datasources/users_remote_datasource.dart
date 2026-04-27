@@ -1,42 +1,25 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+
+import '../../../core/network/api_client.dart';
 import '../models/user_model.dart';
 
 class UsersRemoteDatasource {
-  final String baseUrl;
-  final http.Client client;
+  final ApiClient apiClient;
 
   UsersRemoteDatasource({
-    required this.baseUrl,
-    required this.client,
+    required this.apiClient,
   });
 
-  Future<Map<String, dynamic>> upsertMe({
-    required String firebaseToken,
-  }) async {
-    final res = await client.post(
-      Uri.parse('$baseUrl/auth/firebase'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $firebaseToken',
-      },
-    );
-
-    if (res.statusCode < 200 || res.statusCode >= 300) {
-      throw Exception('Falha ao sincronizar usuário');
-    }
-
-    return jsonDecode(res.body) as Map<String, dynamic>;
-  }
-
   Future<List<UserModel>> getUsers() async {
-    final res = await client.get(Uri.parse('$baseUrl/users'));
+    final res = await apiClient.client.get(apiClient.uri('/users'));
 
     if (res.statusCode < 200 || res.statusCode >= 300) {
-      throw Exception('Falha ao buscar usuários');
+      throw Exception('Erro ao buscar usuários');
     }
 
     final data = jsonDecode(res.body) as List<dynamic>;
+
     return data
         .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
         .toList();

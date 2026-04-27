@@ -1,17 +1,12 @@
 import '../datasources/users_remote_datasource.dart';
 import '../models/user_model.dart';
 
-class UsersRepositoryImpl {
+class UsersRepository {
   final UsersRemoteDatasource datasource;
 
-  UsersRepositoryImpl(this.datasource);
+  UsersRepository(this.datasource);
 
-  Future<UserModel> syncCurrentUser(String firebaseToken) async {
-    final json = await datasource.upsertMe(firebaseToken: firebaseToken);
-    return UserModel.fromJson(json);
-  }
-
-  Future<List<UserModel>> listUsers() {
+  Future<List<UserModel>> getUsers() {
     return datasource.getUsers();
   }
 }

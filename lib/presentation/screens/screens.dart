@@ -29,5 +29,9 @@ export './chat/chat_screen.dart';
 
 // Settings Screens
 
-export 'settings/settings_screen.dart';
+export './settings/settings_screen.dart';
+
+// Tests
+
+export './tests/users_test_screen.dart';
 

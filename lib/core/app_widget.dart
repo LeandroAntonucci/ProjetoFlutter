@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lavie',
-      initialRoute: AppRoutes.welcome,
+      initialRoute: AppRoutes.tests,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }
