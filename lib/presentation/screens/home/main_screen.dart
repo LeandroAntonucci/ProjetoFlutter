@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens.dart';
 import 'app_bottom_navigation.dart';
-import 'custom_app_bar.dart';
 
 
 class MainScreen extends StatefulWidget {

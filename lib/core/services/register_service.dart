@@ -47,7 +47,6 @@ class RegisterService extends ChangeNotifier {
         emailController.text.trim(),
         passwordController.text.trim(),
       );
-      await _authService.completeOnboarding();
       return true;
     } catch (e) {
       errorMessage = e.toString().replaceFirst('Exception: ', '');

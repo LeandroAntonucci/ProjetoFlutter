@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../core/services/auth_service.dart';
 import './app_routes.dart';
 import '../../presentation/screens/screens.dart';
-import '../data/models/task_draft.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -15,10 +14,8 @@ class AppRouter {
 
         final isLogged = auth.isLoggedIn;
 
-        final hasSeenOnboarding = auth.hasSeenOnboarding;
-
-        if (route == AppRoutes.welcome && !isLogged) { 
-            return const WelcomeScreen();
+        if (route == AppRoutes.welcome && !isLogged) {
+          return const WelcomeScreen();
         }
 
         if (_isProtected(route) && !isLogged) {
@@ -27,10 +24,6 @@ class AppRouter {
 
         if (_isAuthRoute(route) && isLogged) {
           return const MainScreen();
-        }
-
-        if(route == AppRoutes.onboarding && !hasSeenOnboarding) {
-          return const OnboardingScreen();
         }
 
         switch (route) {
@@ -64,25 +57,25 @@ class AppRouter {
           case AppRoutes.settings:
             return const MainScreen(initialIndex: 3);
 
-            case AppRoutes.tests:
-              return const UsersTestScreen();
+          case AppRoutes.tests:
+            return const UsersTestScreen();
 
-           case AppRoutes.taskCreate:
-              final args = settings.arguments as TaskCreationArgs?;
+          case AppRoutes.taskCreate:
+            final args = settings.arguments as TaskCreationArgs?;
 
-              if (args == null) {
-                return const Scaffold(
-                  body: Center(child: Text('Categoria da task não informada')),
-                );
-              }
+            if (args == null) {
+              return const Scaffold(
+                body: Center(child: Text('Categoria da task não informada')),
+              );
+            }
 
-              return TaskCreateScreen(category: args.category);
+            return TaskCreateScreen(category: args.category);
 
-            case AppRoutes.taskSuccess:
-              return const TaskSuccessScreen();
+          case AppRoutes.taskSuccess:
+            return const TaskSuccessScreen();
 
-            case AppRoutes.taskSuccess:
-              return const TaskSuccessScreen();
+          case AppRoutes.taskSuccess:
+            return const TaskSuccessScreen();
 
           default:
             return const Scaffold(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/services/auth_service.dart';
-import '../../routes/app_routes.dart';
 
 class LoginService extends ChangeNotifier {
   LoginService(this._authService);
