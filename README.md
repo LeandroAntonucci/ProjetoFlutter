@@ -41,7 +41,6 @@ Desenvolver uma solução intuitiva, acessível e funcional para ajudar idosos a
 - Flutter
 - Dart
 - Provider
-- Firebase Auth
 - Shared Preferences
 - HTTP
 
