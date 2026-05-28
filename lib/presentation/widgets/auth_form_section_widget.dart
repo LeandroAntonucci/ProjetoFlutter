@@ -7,14 +7,14 @@ class AuthFormSection extends StatelessWidget {
   const AuthFormSection({
     super.key,
     required this.formKey,
-    required this.emailController,
+    required this.userNameController,
     required this.passwordController,
     required this.loading,
     required this.errorMessage,
     required this.obscurePassword,
     required this.onTogglePasswordVisibility,
     required this.onSubmit,
-    required this.emailValidator,
+    required this.userNameValidator,
     required this.passwordValidator,
     required this.primaryButtonText,
     required this.bottomTextPrefix,
@@ -24,7 +24,7 @@ class AuthFormSection extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
-  final TextEditingController emailController;
+  final TextEditingController userNameController;
   final TextEditingController passwordController;
   final bool loading;
   final String? errorMessage;
@@ -32,7 +32,7 @@ class AuthFormSection extends StatelessWidget {
 
   final VoidCallback onTogglePasswordVisibility;
   final Future<void> Function() onSubmit;
-  final String? Function(String?) emailValidator;
+  final String? Function(String?) userNameValidator;
   final String? Function(String?) passwordValidator;
 
   final String primaryButtonText;
@@ -68,7 +68,7 @@ class AuthFormSection extends StatelessWidget {
             ),
             const SizedBox(height: 26),
             Text(
-              'Email',
+              'Nome de usuário',
               style: AppTextStyles.helper.copyWith(
                 color: Colors.black87,
                 fontWeight: FontWeight.w600,
@@ -76,19 +76,19 @@ class AuthFormSection extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             TextFormField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
+              controller: userNameController,
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               style: AppTextStyles.inputText.copyWith(color: Colors.black87),
               decoration: InputDecoration(
-                hintText: 'nome@email.com',
+                hintText: 'userName',
                 hintStyle: AppTextStyles.inputPlaceholder.copyWith(
                   color: Colors.grey.shade500,
                 ),
                 filled: true,
                 fillColor: AppColors.inputBackground,
                 prefixIcon: const Icon(
-                  Icons.email_outlined,
+                  Icons.person_outlined,
                   size: 18,
                   color: Colors.grey,
                 ),
@@ -126,7 +126,7 @@ class AuthFormSection extends StatelessWidget {
                   vertical: 16,
                 ),
               ),
-              validator: emailValidator,
+              validator: userNameValidator,
             ),
             const SizedBox(height: 18),
             Text(

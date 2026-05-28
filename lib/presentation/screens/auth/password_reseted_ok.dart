@@ -11,7 +11,7 @@ class PasswordChangedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
 
-    final maxCardWidth = size.width < 600 ? size.width * 0.92 : 420.0;
+    // final maxCardWidth = size.width < 600 ? size.width * 0.92 : 420.0;
     final cardHeight = size.height < 700 ? size.height * 0.90 : 620.0;
     final topBarHeight = (size.height * 0.06).clamp(40.0, 56.0);
 

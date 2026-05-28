@@ -14,37 +14,44 @@ enum TaskStatus {
 }
 
 enum FrequencyType {
-  once,
   daily,
   weekly,
+  monthly,
   custom,
 }
 
 enum IntervalUnit {
-  minutes,
-  hours,
-  days,
-  weeks,
-}
-
-enum ExerciseIntensity {
-  low,
-  medium,
-  high,
-}
-
-enum MealType {
-  breakfast,
-  lunch,
-  dinner,
-  snack,
-  other,
+  day,
+  week,
+  month,
 }
 
 class TaskCreationArgs {
   final TaskCategory category;
 
   const TaskCreationArgs({required this.category});
+}
+extension TaskCategoryApiX on TaskCategory {
+  static TaskCategory fromApi(String value) {
+    return switch (value.toUpperCase()) {
+      'WATER' => TaskCategory.water,
+      'MEDICATION' => TaskCategory.medication,
+      'EXERCISE' => TaskCategory.exercise,
+      'MEAL' => TaskCategory.meal,
+      _ => TaskCategory.other,
+    };
+  }
+}
+
+extension TaskStatusApiX on TaskStatus {
+  static TaskStatus fromApi(String value) {
+    return switch (value.toUpperCase()) {
+      'DONE' => TaskStatus.done,
+      'MISSED' => TaskStatus.missed,
+      'PAUSED' => TaskStatus.paused,
+      _ => TaskStatus.pending,
+    };
+  }
 }
 
 extension TaskCategoryX on TaskCategory {
@@ -67,51 +74,31 @@ extension TaskCategoryX on TaskCategory {
 
 extension FrequencyTypeX on FrequencyType {
   String get apiValue => switch (this) {
-        FrequencyType.once => 'ONCE',
         FrequencyType.daily => 'DAILY',
         FrequencyType.weekly => 'WEEKLY',
+        FrequencyType.monthly => 'MONTHLY',
         FrequencyType.custom => 'CUSTOM',
       };
 
   String get label => switch (this) {
-        FrequencyType.once => 'Uma vez',
         FrequencyType.daily => 'Diária',
         FrequencyType.weekly => 'Semanal',
+        FrequencyType.monthly => 'Mensal',
         FrequencyType.custom => 'Personalizada',
       };
 }
 
 extension IntervalUnitX on IntervalUnit {
   String get apiValue => switch (this) {
-        IntervalUnit.minutes => 'MINUTES',
-        IntervalUnit.hours => 'HOURS',
-        IntervalUnit.days => 'DAYS',
-        IntervalUnit.weeks => 'WEEKS',
+        IntervalUnit.day => 'DAY',
+        IntervalUnit.week => 'WEEK',
+        IntervalUnit.month => 'MONTH',
       };
 
   String get label => switch (this) {
-        IntervalUnit.minutes => 'Minutos',
-        IntervalUnit.hours => 'Horas',
-        IntervalUnit.days => 'Dias',
-        IntervalUnit.weeks => 'Semanas',
-      };
-}
-
-extension ExerciseIntensityX on ExerciseIntensity {
-  String get label => switch (this) {
-        ExerciseIntensity.low => 'Leve',
-        ExerciseIntensity.medium => 'Moderada',
-        ExerciseIntensity.high => 'Intensa',
-      };
-}
-
-extension MealTypeX on MealType {
-  String get label => switch (this) {
-        MealType.breakfast => 'Café da manhã',
-        MealType.lunch => 'Almoço',
-        MealType.dinner => 'Jantar',
-        MealType.snack => 'Lanche',
-        MealType.other => 'Outro',
+        IntervalUnit.day => 'Dias',
+        IntervalUnit.week => 'Semanas',
+        IntervalUnit.month => 'Meses',
       };
 }
 
@@ -122,69 +109,23 @@ class TaskDraft {
   final int? intervalValue;
   final IntervalUnit? intervalUnit;
 
-  final int? durationMinutes;
-  final ExerciseIntensity? intensity;
-
-  final MealType? mealType;
-  final int? waterAmountMl;
-
-  final String? notes;
-
   const TaskDraft({
     required this.title,
     required this.category,
     required this.frequencyType,
     this.intervalValue,
     this.intervalUnit,
-    this.durationMinutes,
-    this.intensity,
-    this.mealType,
-    this.waterAmountMl,
-    this.notes,
   });
 
   factory TaskDraft.empty(TaskCategory category) {
     return TaskDraft(
       title: '',
       category: category,
-      frequencyType: FrequencyType.once,
+      frequencyType: FrequencyType.daily,
     );
   }
 
-  TaskDraft copyWith({
-    String? title,
-    TaskCategory? category,
-    FrequencyType? frequencyType,
-    int? intervalValue,
-    IntervalUnit? intervalUnit,
-    int? durationMinutes,
-    ExerciseIntensity? intensity,
-    MealType? mealType,
-    int? waterAmountMl,
-    String? notes,
-    bool clearIntervalValue = false,
-    bool clearIntervalUnit = false,
-    bool clearDurationMinutes = false,
-    bool clearIntensity = false,
-    bool clearMealType = false,
-    bool clearWaterAmountMl = false,
-    bool clearNotes = false,
-  }) {
-    return TaskDraft(
-      title: title ?? this.title,
-      category: category ?? this.category,
-      frequencyType: frequencyType ?? this.frequencyType,
-      intervalValue: clearIntervalValue ? null : intervalValue ?? this.intervalValue,
-      intervalUnit: clearIntervalUnit ? null : intervalUnit ?? this.intervalUnit,
-      durationMinutes: clearDurationMinutes ? null : durationMinutes ?? this.durationMinutes,
-      intensity: clearIntensity ? null : intensity ?? this.intensity,
-      mealType: clearMealType ? null : mealType ?? this.mealType,
-      waterAmountMl: clearWaterAmountMl ? null : waterAmountMl ?? this.waterAmountMl,
-      notes: clearNotes ? null : notes ?? this.notes,
-    );
-  }
-
-  Map<String, dynamic> toJson({required int authorId}) {
+  Map<String, dynamic> toCreateBody({required int authorId}) {
     return {
       'title': title.trim(),
       'category': category.apiValue,
@@ -192,11 +133,7 @@ class TaskDraft {
       'frequencyType': frequencyType.apiValue,
       'intervalValue': intervalValue,
       'intervalUnit': intervalUnit?.apiValue,
-      'durationMinutes': durationMinutes,
-      'intensity': intensity?.name.toUpperCase(),
-      'mealType': mealType?.name.toUpperCase(),
-      'waterAmountMl': waterAmountMl,
-      'notes': notes,
+      'completionDate': null,
       'authorId': authorId,
     };
   }

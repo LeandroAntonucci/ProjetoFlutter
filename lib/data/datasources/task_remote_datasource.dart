@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../../core/network/api_client.dart';
+import '../models/task_draft.dart';
 import '../models/task_model.dart';
 
 class TasksRemoteDataSource {
@@ -22,5 +23,25 @@ class TasksRemoteDataSource {
     return data
         .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  Future<TaskModel> createTask({
+    required TaskDraft draft,
+    required int authorId,
+  }) async {
+    final res = await apiClient.client.post(
+      apiClient.uri('/tasks'),
+      headers: const {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(draft.toCreateBody(authorId: authorId)),
+    );
+
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception('Erro ao criar task');
+    }
+
+    final data = jsonDecode(res.body) as Map<String, dynamic>;
+    return TaskModel.fromJson(data);
   }
 }

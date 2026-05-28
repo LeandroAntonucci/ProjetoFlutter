@@ -16,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
     return AuthScreenShell(
       child: AuthFormSection(
         formKey: registerService.formKey,
-        emailController: registerService.emailController,
+        userNameController: registerService.userNameController,
         passwordController: registerService.passwordController,
         loading: registerService.loading,
         errorMessage: registerService.errorMessage,
@@ -28,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
             Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
           }
         },
-        emailValidator: registerService.validateEmail,
+        userNameValidator: registerService.validateUserName,
         passwordValidator: registerService.validatePassword,
         primaryButtonText: 'Cadastrar',
         bottomTextPrefix: 'Já tem uma conta? ',

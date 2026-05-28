@@ -7,7 +7,7 @@ class LoginService extends ChangeNotifier {
   final AuthService _authService;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   bool loading = false;
@@ -19,12 +19,9 @@ class LoginService extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? validateEmail(String? value) {
-    final email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Informe seu email.';
-    if (!email.contains('@') || !email.contains('.')) {
-      return 'Informe um email válido.';
-    }
+  String? validateuserName(String? value) {
+    final userName = value?.trim() ?? '';
+    if (userName.isEmpty) return 'Informe seu userName.';
     return null;
   }
 
@@ -44,7 +41,7 @@ class LoginService extends ChangeNotifier {
 
     try {
       await _authService.login(
-        emailController.text.trim(),
+        userNameController.text.trim(),
         passwordController.text.trim(),
       );
     } catch (e) {
@@ -57,7 +54,7 @@ class LoginService extends ChangeNotifier {
 
   @override
   void dispose() {
-    emailController.dispose();
+    userNameController.dispose();
     passwordController.dispose();
     super.dispose();
   }

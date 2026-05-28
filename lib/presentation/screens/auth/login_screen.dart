@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
         children: [
           AuthFormSection(
             formKey: loginService.formKey,
-            emailController: loginService.emailController,
+            userNameController: loginService.userNameController,
             passwordController: loginService.passwordController,
             loading: loginService.loading,
             errorMessage: loginService.errorMessage,
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, AppRoutes.main);
               }
             },
-            emailValidator: loginService.validateEmail,
+            userNameValidator: loginService.validateuserName,
             passwordValidator: loginService.validatePassword,
             primaryButtonText: 'Entrar',
             bottomTextPrefix: 'Não tem uma conta ainda? ',

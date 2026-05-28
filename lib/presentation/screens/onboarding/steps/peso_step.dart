@@ -28,7 +28,7 @@ class _PesoStepState extends State<PesoStep> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 600;
+        // final isMobile = constraints.maxWidth < 600;
 
         return Scaffold(
           backgroundColor: Colors.black,

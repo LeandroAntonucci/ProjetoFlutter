@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-
 }
 
 enum UserRole {
@@ -43,29 +42,33 @@ enum TaskStatus {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
-  email          String          @unique
-  name           String?
-  role           UserRole        @default(USER)
-  age            Int?
-  height         Int?
-  weight         Int?
+  id            Int             @id @default(autoincrement())
+  username      String          @unique
+  email         String?         @unique
+  passwordHash  String
+  name          String?
+  role          UserRole        @default(USER)
+  age           Int?
+  height        Int?
+  weight        Int?
 
-  caregiverId    Int?
-  caregiver      User?           @relation("CaregiverRelation", fields: [caregiverId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  dependents     User[]          @relation("CaregiverRelation")
+  caregiverId   Int?
+  caregiver     User?           @relation("CaregiverRelation", fields: [caregiverId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  dependents    User[]          @relation("CaregiverRelation")
 
-  attemptsLogin  Int             @default(0)
-  blockedUntil   DateTime?
+  attemptsLogin Int             @default(0)
+  blockedUntil  DateTime?
 
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
-  address        Address?
-  tasks          Task[]
+  address       Address?
+  tasks         Task[]
   passwordResets PasswordReset[]
 
   @@index([caregiverId])
+  @@index([username])
+  @@index([email])
   @@map("users")
 }
 

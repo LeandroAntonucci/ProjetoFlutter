@@ -70,10 +70,6 @@ class TaskDraftValidator {
       return 'O intervalo deve ser maior que zero.';
     }
 
-    if (parsed > 365) {
-      return 'O intervalo está muito alto.';
-    }
-
     return null;
   }
 
@@ -82,13 +78,6 @@ class TaskDraftValidator {
       return 'Selecione a unidade do intervalo.';
     }
     return null;
-  }
-
-  static String? validateMealType(MealType? value) {
-  if (value == null) {
-    return 'Selecione o tipo de refeição.';
-  }
-  return null;
   }
 
   static List<String> validateDraft(TaskDraft draft) {
@@ -100,42 +89,13 @@ class TaskDraftValidator {
     final freqError = validateFrequencyType(draft.frequencyType);
     if (freqError != null) errors.add(freqError);
 
-    final needsInterval = draft.frequencyType == FrequencyType.custom;
-
-    if (needsInterval) {
+    if (draft.frequencyType == FrequencyType.custom) {
       if (draft.intervalValue == null || draft.intervalValue! <= 0) {
         errors.add('Informe um intervalo válido.');
       }
       if (draft.intervalUnit == null) {
         errors.add('Selecione a unidade do intervalo.');
       }
-    }
-
-    switch (draft.category) {
-      case TaskCategory.exercise:
-        if (draft.durationMinutes == null || draft.durationMinutes! <= 0) {
-          errors.add('Informe a duração do exercício.');
-        }
-        if (draft.intensity == null) {
-          errors.add('Selecione a intensidade do exercício.');
-        }
-        break;
-
-      case TaskCategory.meal:
-        if (draft.mealType == null) {
-          errors.add('Selecione o tipo de refeição.');
-        }
-        break;
-
-      case TaskCategory.water:
-        if (draft.waterAmountMl == null || draft.waterAmountMl! <= 0) {
-          errors.add('Informe a quantidade de água.');
-        }
-        break;
-
-      case TaskCategory.medication:
-      case TaskCategory.other:
-        break;
     }
 
     return errors;

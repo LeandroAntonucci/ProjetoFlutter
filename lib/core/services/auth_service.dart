@@ -35,7 +35,14 @@ class AuthService extends ChangeNotifier {
           userId: data['userId'] ?? '',
           name: data['name'] ?? 'Usuário',
           email: data['email'] ?? '',
+          localUserId: data['localUserId'] is int ? data['localUserId'] as int : null,
         );
+
+        final parsedUserId = int.tryParse(_session!.userId);
+        if (parsedUserId == null) {
+          _session = null;
+          await prefs.remove('auth_session');
+        }
       } catch (_) {
         _session = null;
       }
@@ -45,9 +52,8 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String password) async {
     try {
-      final username = _loginFromEmail(email);
       final response = await _authProvider.login(
         username: username,
         password: password,
@@ -61,14 +67,14 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(String username, String password) async {
     try {
       await _authProvider.register(
-        email: email,
+        username: username,
         password: password,
       );
 
-      await login(email, password);
+      await login(username, password);
     } catch (e) {
       throw Exception('Falha no cadastro: $e');
     }
@@ -79,13 +85,6 @@ class AuthService extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_session');
     notifyListeners();
-  }
-
-  String _loginFromEmail(String email) {
-    final trimmed = email.trim();
-    final index = trimmed.indexOf('@');
-    if (index > 0) return trimmed.substring(0, index);
-    return trimmed;
   }
 
   Future<void> _saveSession(AuthResponseDto session) async {

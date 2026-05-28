@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../../../core/network/api_client.dart';
 import '../models/user_model.dart';
 

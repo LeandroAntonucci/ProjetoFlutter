@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
-import '../core/services/auth_service.dart';
+// import '../core/services/auth_service.dart';
 import './app_routes.dart';
 import '../../presentation/screens/screens.dart';
+import '../data/models/task_draft.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (context) {
-        final auth = context.watch<AuthService>();
         final route = settings.name;
 
-        final isLogged = auth.isLoggedIn;
-
-        if (route == AppRoutes.welcome && !isLogged) {
-          return const WelcomeScreen();
-        }
-
-        if (_isProtected(route) && !isLogged) {
-          return const LoginScreen();
-        }
-
-        if (_isAuthRoute(route) && isLogged) {
-          return const MainScreen();
-        }
-
         switch (route) {
+
+          case AppRoutes.welcome:
+            return const WelcomeScreen();
+
           case AppRoutes.login:
             return const LoginScreen();
 
@@ -49,30 +39,22 @@ class AppRouter {
             return const MainScreen(initialIndex: 0);
 
           case AppRoutes.chat:
-            return const MainScreen(initialIndex: 2);
+            return const MainScreen(initialIndex: 1);
 
           case AppRoutes.tasks:
-            return const MainScreen(initialIndex: 1);
+            return const MainScreen(initialIndex: 2);
 
           case AppRoutes.settings:
             return const MainScreen(initialIndex: 3);
 
-          case AppRoutes.tests:
-            return const UsersTestScreen();
-
           case AppRoutes.taskCreate:
-            final args = settings.arguments as TaskCreationArgs?;
-
-            if (args == null) {
+            final args = settings.arguments;
+            if (args is! TaskCreationArgs) {
               return const Scaffold(
                 body: Center(child: Text('Categoria da task não informada')),
               );
             }
-
             return TaskCreateScreen(category: args.category);
-
-          case AppRoutes.taskSuccess:
-            return const TaskSuccessScreen();
 
           case AppRoutes.taskSuccess:
             return const TaskSuccessScreen();
@@ -84,23 +66,5 @@ class AppRouter {
         }
       },
     );
-  }
-
-  static bool _isProtected(String? route) {
-    return [
-      AppRoutes.main,
-      AppRoutes.chat,
-      AppRoutes.tasks,
-      AppRoutes.settings,
-    ].contains(route);
-  }
-
-  static bool _isAuthRoute(String? route) {
-    return [
-      AppRoutes.login,
-      AppRoutes.register,
-      AppRoutes.forgotPassword,
-      AppRoutes.resetPassword,
-    ].contains(route);
   }
 }
