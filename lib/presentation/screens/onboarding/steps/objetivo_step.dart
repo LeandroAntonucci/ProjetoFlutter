@@ -67,7 +67,7 @@ class _ObjetivoStepState extends State<ObjetivoStep> {
 
               // 🔹 Título
               Text(
-                'What do you want to\nachieve?',
+                'O que você deseja?',
                 style: AppTextStyles.h2.copyWith(color: Colors.black),
               ),
 
@@ -75,7 +75,7 @@ class _ObjetivoStepState extends State<ObjetivoStep> {
 
               // 🔹 Subtexto
               Text(
-                'What you are going to select will\n effect your workout program',
+                'O que você selecionar impactará seu programa de treino',
                 style: AppTextStyles.helper.copyWith(color: Colors.black54),
               ),
 
